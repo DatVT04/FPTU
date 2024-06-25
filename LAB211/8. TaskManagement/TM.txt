@@ -1,0 +1,322 @@
+public class Function {
+
+    public void displayMenu() {
+        System.out.printf(
+                "========== Task program ==========\n"
+                + "1.Add Task\n"
+                + "2.Delete Task\n"
+                + "3.Display Task\n"
+                + "4.Exit\n");
+    }
+
+    public void addTask(List<Task> task) {
+        Validation Valid = new Validation();
+        
+        int id = 1;
+        if (!task.isEmpty()) {
+            id = task.get(task.size() - 1).getId() + 1;
+        }
+
+        String name = Valid.inputString("Requirement Name: ");
+
+        int idTask = Valid.inputInt("Task Type: ", "From 1 to 4: ", 1, 4);
+
+        String date = Valid.inputDate("Date: ");
+
+        double from = Valid.inputFrom();
+
+        double to = Valid.inputTo(from);
+
+        String assign = Valid.inputString("Assignee: ");
+
+        String review = Valid.inputString("Reviewer: ");
+
+        while (Valid.duplicate(name, date, from, to, task)) {
+            System.err.println("Have dulicate task!!! Enter time again");
+            date = Valid.inputDate("Date: ");
+            from = Valid.inputFrom();
+            to = Valid.inputTo(from);
+        }
+        Task temp = new Task(id, name,idTask, date, from, to, assign, review);
+        task.add(temp);
+    }
+
+    public void delTask(List<Task> task) {
+        Validation Valid = new Validation();
+        
+        System.out.println("---------Del Task------");
+        
+        int id = Valid.inputInt("ID: ", "ID not exist: ", 1, task.size());
+        
+        for (int i=task.size()-1; i>=id; i--){
+            Task temp = task.get(i);
+            temp.setId(task.get(i).getId()-1);
+            task.set(i, temp);
+        }
+        task.remove(id-1);
+        
+    }
+
+    public void displayTask(List<Task> task) {
+        System.out.println("----------------------------------------- Task ---------------------------------------\n"
+                + "ID 	Name			Task Type	Date		Time		Assignee	Reviewer");
+        for (Task temp : task){
+            System.out.println(temp.toString());
+        }
+    }
+}
+--------------------------------------------------------
+public class Main {
+
+    public static void main(String[] args) {
+        Validation Valid = new Validation();
+        Function Funct = new Function();
+        List<Task> task = new ArrayList<>();
+
+        do {
+            Funct.displayMenu();
+            int chosen = Valid.inputInt("Chose option: ", "EROR CHOSEN!!! Chose Again: ", 1, 4);
+            switch (chosen) {
+                case 1:
+                    Funct.addTask(task);
+                    break;
+                case 2:
+                    Funct.delTask(task);
+                    break;
+                case 3:
+                    Funct.displayTask(task);
+                    break;
+                case 4:
+                    System.exit(0);
+                    break;
+            }
+
+        } while (true);
+    }
+}
+-----------------------------------------------------------
+public class Task {
+    private String date, name, assignee, reviewer;
+    private double from, to;
+    private int id, typeId;
+
+    public Task() {
+    }
+
+    public Task(int id, String name, int typeid, String date, double from, double to, String assignee,
+            String reviewer) {
+        this.id = id;
+        this.name = name;
+        this.typeId = typeid;
+        this.date = date;
+        this.from = from;
+        this.to = to;
+        this.assignee = assignee;
+        this.reviewer = reviewer;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getTypeId() {
+        return typeId;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public double getFrom() {
+        return from;
+    }
+
+    public double getTo() {
+        return to;
+    }
+
+    public String getAssignee() {
+        return assignee;
+    }
+
+    public String getReviewer() {
+        return reviewer;
+    }
+
+    public double getTime() {
+        return to - from;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAssignee(String assignee) {
+        this.assignee = assignee;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setFrom(double from) {
+        this.from = from;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setReviewer(String reviewer) {
+        this.reviewer = reviewer;
+    }
+
+    public void setTo(double to) {
+        this.to = to;
+    }
+
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
+    }
+    
+    public String getTaskType(){
+        String taskType = "";
+        switch (this.typeId) {
+            case 1:
+                taskType = "Code";
+                break;
+            case 2:
+                taskType = "Test";
+                break;
+            case 3:
+                taskType = "Design";
+                break;
+            case 4:
+                taskType = "Review";
+                break;
+        }
+        return taskType;
+    }
+    
+    @Override
+    public String toString(){
+        return id +"\t" +name.trim()+"\t\t"+this.getTaskType().trim()+"\t\t"+date.trim()+"\t"+this.getTime()+"\t\t"+assignee.trim()+"\t\t"+reviewer.trim();
+    }
+}
+------------------------------------------------------
+public class Validation {
+
+    public int inputInt(String msg, String wrongMsg, int MIN, int MAX) {
+        Scanner scan = new Scanner(System.in);
+        System.out.print(msg);
+        while (true) {
+            try {
+                int temp = Integer.parseInt(scan.nextLine().trim());
+                if (temp < MIN || temp > MAX) {
+                    throw new NumberFormatException();
+                }
+                return temp;
+            } catch (NumberFormatException e) {
+                System.err.print(wrongMsg);
+            }
+        }
+    }
+
+    public String inputString(String str) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            try {
+                System.out.print(str);
+                String input = scanner.nextLine();
+                if (input == null || input.trim().isEmpty()) {
+                    throw new Exception("String can't be empty!!!");
+                }
+                return input;
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        }
+    }
+
+    public String inputDate(String str) {
+        Scanner scan = new Scanner(System.in);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        dateFormat.setLenient(false);
+//        System.out.print(str);
+        while (true) {
+            System.out.print(str);
+            try {
+                Date date = dateFormat.parse(scan.next());
+                return dateFormat.format(date);
+            } catch (ParseException e) {
+                System.err.print("Enter with date format dd-MM-yyyy!!!");
+            }
+        }
+    }
+
+
+    public double inputFrom() {
+        Scanner scan = new Scanner(System.in);
+        Pattern pattern = Pattern.compile("^(8|9|1[0-7])(\\.0||\\.5)?$");
+
+        while (true) {
+            System.out.print("From: ");
+            try {
+                String input = scan.nextLine();
+                if (pattern.matcher(input).matches()) {
+                    return Double.parseDouble(input);
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                System.err.println("Error time format!!!");
+            }
+        }
+    }
+
+    public double inputTo(double from) {
+        Scanner scan = new Scanner(System.in);
+        Pattern pattern = Pattern.compile("^(8|9|1[0-7])(\\.0||\\.5)?$");
+
+        while (true) {
+            System.out.print("To: ");
+            try {
+                String input = scan.nextLine();
+                if (pattern.matcher(input).matches()) {
+                    if (Double.parseDouble(input) > from) {
+                        return Double.parseDouble(input);
+                    } else {
+                        throw new Error();
+                    }
+                } else {
+                    throw new NumberFormatException();
+                }
+            } catch (Error e) {
+                System.err.println("End time must greater than start!!!");
+            } catch (NumberFormatException e){
+                System.err.println("Error time format!!!");
+            }
+        }
+    }
+
+    public boolean duplicate(String name, String date, double from, double to, List<Task> task) {
+        boolean check = false;
+        if (!task.isEmpty()) {
+            for (Task temp : task) {
+                if (temp.getName().equalsIgnoreCase(name) && temp.getDate().equals(date)) {
+                    if (temp.getFrom() >= to || temp.getTo() <= from) {
+                        check = false;
+                    } else {
+                        check = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return check;
+    }
+}
