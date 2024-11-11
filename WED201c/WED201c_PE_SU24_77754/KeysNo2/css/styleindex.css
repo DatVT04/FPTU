@@ -1,0 +1,139 @@
+.container {
+    padding: 10px 10px 0;
+}
+
+.logo {
+}
+
+.logo img {
+    display: block;
+    width: 150px;
+    margin: 0 auto;
+}
+.navbar {
+    background-color: #a2a6a7;
+}
+
+.navbar ul {
+    margin: 15px 0 0;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.navbar a {
+    padding: 10px 25px;
+    color: white;
+    text-decoration: none;
+    line-height: 40px;
+}
+
+.banners {
+    display: flex;
+}
+
+.banners img {
+    width: 50%;
+}
+
+.about {
+    display: flex;
+}
+
+.about .left {
+    padding: 20px 50px;
+    width: 55%;
+}
+
+.left h2 {
+    color: #34c2ef;
+    font-weight: bold;
+}
+
+.left p {
+    text-align: justify;
+    font-size: 1.25em;
+}
+
+.about .right {
+    margin-top: 30px;
+    width: 45%;
+}
+
+.about .right img {
+    width: 80%;
+}
+
+.heading {
+    padding: 20px;
+    text-align: center;
+    color: #34c2ef;
+}
+
+.list {
+    width: 900px;
+    max-width: calc(100vw - 900 / 2 - 100px);
+    margin: 0 auto;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.list .item {
+    padding: 15px 5px;
+    text-align: center;
+    border: #f7b79d double 4px;
+    border-radius: 15px;
+}
+
+.list .item p {
+    font-size: 1.15em;
+}
+
+.list .button {
+    padding: 10px 25px;
+    display: inline-block;
+    background-color: #07b5be;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.acc {
+    width: 1300px;
+    max-width: calc(100% - 50px);
+    margin: 0 auto;
+    /* padding: 0 200px; */
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+}
+
+.acc .item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.acc .item {
+    padding: 20px;
+    background-color: #ececec;
+    text-align: center;
+}
+
+.acc .item p {
+    color: #ef9f84;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.footer {
+    margin-top: 20px;
+    padding: 10px 0;
+    text-align: center;
+    color: white;
+    background-color: #a2a6a7;
+}
